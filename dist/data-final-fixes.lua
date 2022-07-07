@@ -1,3 +1,10 @@
+local function fix_results(results, name, stack_size)
+    for _,item in pairs(results) do
+        if item.name == name then item.amount = stack_size end
+        if item[1] == name then item[2] = stack_size end
+    end
+    return results
+end
 
 local function item_by_hand(recipe_name, item_name, item_type)
     log(recipe_name)
@@ -8,8 +15,23 @@ local function item_by_hand(recipe_name, item_name, item_type)
     if item then
         recipe.name = recipe.name .. "-by-hand"
         recipe.enabled = true
-        recipe.ingredients = {}
-        recipe.result_count = item.stack_size
+        if recipe.ingredients then recipe.ingredients = {} end
+        if recipe.result then recipe.result_count = item.stack_size end
+        if recipe.results then recipe.results = fix_results(recipe.results, item_name, item.stack_size) end
+
+        if recipe.normal then
+            recipe.normal.ingredients = {}
+            recipe.normal.enabled = true
+            if recipe.normal.results then recipe.normal.results = fix_results(recipe.normal.results, item_name, item.stack_size) end
+            if recipe.normal.result then recipe.normal.result_count = item.stack_size end
+        end
+        if recipe.expensive then
+            recipe.expensive.ingredients = {}
+            recipe.expensive.enabled = true
+            if recipe.expensive.results then recipe.expensive.results = fix_results(recipe.expensive.results, item_name, item.stack_size) end
+            if recipe.expensive.result then recipe.expensive.result_count = item.stack_size end
+        end
+
         recipe.category = "crafting-by-hand"
         data:extend({ recipe })
     else
