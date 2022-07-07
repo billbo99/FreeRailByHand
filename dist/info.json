@@ -1,0 +1,12 @@
+{
+    "name": "FreeRailByHand",
+    "version": "1.1.0",
+    "title": "Free Rail by Hand",
+    "factorio_version": "1.1",
+    "author": "Billbo99",
+    "description": "Allows you to craft rail by hand for free if you want to start a rail base from the get go.  But the base recipes are still there for any automation reasons.",
+    "dependencies": [
+        "base >= 1.1.0",
+        "?train-pubsub"
+    ]
+}
